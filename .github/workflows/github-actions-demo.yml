@@ -64,7 +64,7 @@ jobs:
             console.log(res);
             const exec1 = require('child_process');
             res.forEach(element => {
-              exec1('gradle ' + element + ':jar', (err, stdout, stderr) => {
+              exec1.exec('gradle ' + element + ':jar', (err, stdout, stderr) => {
               
                 if (err) {
                   console.error(`执行gradle命令时出错: ${err}`);
