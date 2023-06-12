@@ -52,21 +52,20 @@ jobs:
             const path = require('path');
             const data = fs.readFileSync(path.resolve('/home/runner', 'files.json'));
             let jsonData = JSON.parse(data);
-            console.log(jsonData);
-            jsonData = jsonData.replace(new RegExp("\\\\\"", "gm"), "\"").replace("[", "").replace("]", "");
-            var list = jsonData.split(",");
             var res = [];
-            list.forEach(element => {
-              if(element.endsWith("java\"")) {
+            jsonData.forEach(element => {
+              if(element.endsWith(".java")) {
                 var item = element.split("/")[1];
                 if(!res.includes(item)) {
                   res.push(item);
                 }
               }
             })
-            const { exec1 } = require('child_process');
+            console.log(res);
+            const {exec} = require('child_process');
             res.forEach(element => {
-              exec1('gradle ' + element + ':jar', (err, stdout, stderr) => {
+              # exec('gradle ' + element + ':jar', (err, stdout, stderr) => {
+              exec('ls', (err, stdout, stderr) => {
                 if (err) {
                   console.error(`执行gradle命令时出错: ${err}`);
                   return;
