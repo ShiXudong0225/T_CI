@@ -1,0 +1,88 @@
+name: GitHub Actions Demo
+
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # - name: Set up Java
+      #   uses: actions/setup-java@v3
+      #   with:
+      #     java-version: 8
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with: 
+          gradle-version: 4.10.3
+
+      - name: Set up nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Gather_files_changed
+        uses: trilom/file-changes-action@a6ca26c14274c33b15e6499323aac178af06ad4b
+        id: get_diff_files
+        with:
+          # So that `steps.get_diff_files.outputs.files` becomes
+          # a string like `foo.js path/bar.md`
+          fileOutput: 'json'
+
+      - name: Insight into changed files
+        run: cat $HOME/files.json
+      # - name: hostname
+      #   run: echo `hostname`
+      # - name: locate
+      #   run: echo `find / -name files.json`;
+      - name: pwd
+        run: cd $HOME/ && pwd
+      # - name: copy file
+      #   run: cp $HOME/files.json /home/`hostname`/files.json
+      # - name: cat file
+      #   run: cat /home/`hostname`/files.json
+      - name: change code
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const data = fs.readFileSync(path.resolve('/home/runner', 'files.json'));
+            let jsonData = JSON.parse(data);
+            console.log(jsonData);
+            jsonData = jsonData.replace(new RegExp("\\\\\"", "gm"), "\"").replace("[", "").replace("]", "");
+            var list = jsonData.split(",");
+            var res = [];
+            list.forEach(element => {
+              if(element.endsWith("java\"")) {
+                var item = element.split("/")[1];
+                if(!res.includes(item)) {
+                  res.push(item);
+                }
+              }
+            })
+            const { exec1 } = require('child_process');
+            res.forEach(element => {
+              exec1('gradle ' + element + ':jar', (err, stdout, stderr) => {
+                if (err) {
+                  console.error(`执行gradle命令时出错: ${err}`);
+                  return;
+                }
+                console.log(`gradle命令输出: ${stdout}`);
+              });
+            })
+        
+
+      # - name: Install AWS CLI
+      #   run: |
+      #     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      #     unzip awscliv2.zip
+      #     sudo ./aws/install
+
+      # - name: Deploy to AWS Lambda
+      #   run: |
+      #     sam build
+      #     sam deploy --guided
