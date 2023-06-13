@@ -77,10 +77,12 @@ jobs:
     Get_Jar_Path:
     #uses: actions/github-script@v6
       runs-on: [self-hosted]
+
       outputs: 
         funName: ${{steps.lambda_data.funName}}
         jarPath: ${{steps.lambda_data.jarPath}}
       steps:
+        - name: get jar 
         - id: lambda_data
         run: |
           echo "::set-output name=funName::232132"
@@ -90,6 +92,7 @@ jobs:
       runs-on: [self-hosted]
       needs: Get_Jar_Path
       steps:
+        - name: use jar
         run: echo ${{needs.Get_Jar_Path.outputs.funName}}
         run: echo ${{needs.Get_Jar_Path.outputs.jarPath}}
       # - name: Install AWS CLI
