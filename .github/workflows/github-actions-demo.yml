@@ -76,7 +76,7 @@ jobs:
 
       - name: Get_Jar_Path
         #uses: actions/github-script@v6
-        runs-on: [self-hosted]
+        #runs-on: [self-hosted]
         outputs: 
           funName: ${{steps.lambda_data.funName}}
           jarPath: ${{steps.lambda_data.jarPath}}
@@ -87,7 +87,7 @@ jobs:
             echo "::set-output name=jarPath::232132"
       
       - name: Use_Jar_Path
-        runs-on: [self-hosted]
+        #runs-on: [self-hosted]
         needs: Get_Jar_Path
         steps:
           - run: echo ${{needs.Get_Jar_Path.outputs.funName}}
