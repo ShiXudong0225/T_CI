@@ -22,8 +22,9 @@ jobs:
       needs: Get_Jar_Path
       steps:
         - name: use jar
-          run: echo ${{needs.Get_Jar_Path.outputs.funName}}
-          run: echo ${{needs.Get_Jar_Path.outputs.jarPath}}
+          run: |
+            echo ${{needs.Get_Jar_Path.outputs.funName}}
+            echo ${{needs.Get_Jar_Path.outputs.jarPath}}
       # - name: Install AWS CLI
       #   run: |
       #     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
