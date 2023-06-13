@@ -5,7 +5,7 @@ on: [push]
 jobs:
     Get_Jar_Path:
     #uses: actions/github-script@v6
-      runs-on: [self-hosted]
+      runs-on: ubuntu-latest
 
       outputs: 
         funName: ${{steps.lambda_data.funName}}
