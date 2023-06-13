@@ -74,24 +74,24 @@ jobs:
       #       })
 
 
-      - name: Get_Jar_Path
-        #uses: actions/github-script@v6
-        #runs-on: [self-hosted]
-        outputs: 
-          funName: ${{steps.lambda_data.funName}}
-          jarPath: ${{steps.lambda_data.jarPath}}
-        steps:
-          - id: lambda_data
-          run: |
-            echo "::set-output name=funName::232132"
-            echo "::set-output name=jarPath::232132"
-      
-      - name: Use_Jar_Path
-        #runs-on: [self-hosted]
-        needs: Get_Jar_Path
-        steps:
-          run: echo ${{needs.Get_Jar_Path.outputs.funName}}
-          run: echo ${{needs.Get_Jar_Path.outputs.jarPath}}
+    Get_Jar_Path:
+    #uses: actions/github-script@v6
+      runs-on: [self-hosted]
+      outputs: 
+        funName: ${{steps.lambda_data.funName}}
+        jarPath: ${{steps.lambda_data.jarPath}}
+      steps:
+        - id: lambda_data
+        run: |
+          echo "::set-output name=funName::232132"
+          echo "::set-output name=jarPath::232132"
+    
+    Use_Jar_Path
+      runs-on: [self-hosted]
+      needs: Get_Jar_Path
+      steps:
+        run: echo ${{needs.Get_Jar_Path.outputs.funName}}
+        run: echo ${{needs.Get_Jar_Path.outputs.jarPath}}
       # - name: Install AWS CLI
       #   run: |
       #     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
