@@ -14,17 +14,12 @@ jobs:
         - name: get jar 
           id: lambda_data
           run: |
-            echo "::set-output name=funName::232132"
-            echo "::set-output name=jarPath::232132"
-    
-    Use_Jar_Path:
-      runs-on: [self-hosted]
-      needs: Get_Jar_Path
-      steps:
+            echo "funName=12345k" >> $GITHUB_ENV
+        
         - name: use jar
           run: |
-            echo ${{needs.Get_Jar_Path.outputs.funName}}
-            echo ${{needs.Get_Jar_Path.outputs.jarPath}}
+            echo {{env.var1}}
+    
       # - name: Install AWS CLI
       #   run: |
       #     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
