@@ -7,12 +7,11 @@ jobs:
     #uses: actions/github-script@v6
       runs-on: ubuntu-latest
 
-      outputs: 
-        funName: ${{steps.lambda_data.funName}}
-        jarPath: ${{steps.lambda_data.jarPath}}
       steps:
         - name: get jar 
           id: lambda_data
+          env:
+            GITHUB_ENV: ffgff
           run: |
             echo "funName=12345k" >> $GITHUB_ENV
         
