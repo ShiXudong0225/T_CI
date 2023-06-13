@@ -17,7 +17,7 @@ jobs:
             echo "::set-output name=funName::232132"
             echo "::set-output name=jarPath::232132"
     
-    Use_Jar_Path
+    Use_Jar_Path:
       runs-on: [self-hosted]
       needs: Get_Jar_Path
       steps:
